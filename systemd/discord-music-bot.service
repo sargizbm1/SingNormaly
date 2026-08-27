@@ -1,0 +1,22 @@
+[Unit]
+Description=Discord Music Bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# Change these two paths/user to match your VPS setup.
+User=botuser
+WorkingDirectory=/home/botuser/discord-music-bot
+ExecStart=/home/botuser/discord-music-bot/venv/bin/python -m bot.main
+Restart=on-failure
+RestartSec=5
+EnvironmentFile=/home/botuser/discord-music-bot/.env
+
+# Hardening (optional but recommended)
+NoNewPrivileges=true
+ProtectSystem=full
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

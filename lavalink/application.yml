@@ -1,0 +1,51 @@
+server:
+  port: 2333
+  address: 0.0.0.0
+
+lavalink:
+  server:
+    password: "youshallnotpass"   # must match LAVALINK_PASSWORD in .env
+    sources:
+      youtube: true
+      soundcloud: true
+      bandcamp: true
+      twitch: true
+      vimeo: true
+      http: true
+      local: false
+    bufferDurationMs: 400
+    youtubePlaylistLoadLimit: 6
+    playerUpdateInterval: 5
+    youtubeSearchEnabled: true
+    soundcloudSearchEnabled: true
+
+  plugins:
+    # LavaSrc lets Lavalink resolve open.spotify.com links/playlists
+    # directly (metadata) and stream the matched audio from YouTube.
+    # Requires Spotify app credentials (same ones as SPOTIFY_CLIENT_ID/SECRET).
+    - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.2.0"
+      repository: "https://maven.lavalink.dev/releases"
+
+plugins:
+  lavasrc:
+    providers:
+      - "spsearch:%QUERY%"
+      - "ytsearch:%QUERY%"
+    sources:
+      spotify: true
+      youtube: true
+    spotify:
+      clientId: "${SPOTIFY_CLIENT_ID}"
+      clientSecret: "${SPOTIFY_CLIENT_SECRET}"
+      countryCode: "US"
+
+metrics:
+  prometheus:
+    enabled: false
+
+logging:
+  level:
+    root: INFO
+    lavalink: INFO
+  file:
+    path: ./logs/
